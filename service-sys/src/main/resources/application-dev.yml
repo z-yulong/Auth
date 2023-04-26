@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://39.106.67.146:3306/guigu-auth
     username: root
-    password: wph0331....
+    password: wph0331..
   #对日期展示的格式化
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
