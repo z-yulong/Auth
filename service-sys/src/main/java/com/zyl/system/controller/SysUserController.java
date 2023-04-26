@@ -2,6 +2,7 @@ package com.zyl.system.controller;
 
 import com.zyl.common.result.R;
 import com.zyl.common.util.MD5;
+import com.zyl.common.util.Salt;
 import com.zyl.model.system.SysUser;
 import com.zyl.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,7 @@ public class SysUserController {
      */
     @PutMapping("/updateStatus/{userId}/{status}")
     public R updateStatus(@PathVariable Long userId, @PathVariable Integer status) {
-        boolean b = sysUserService.updateStatus(userId, status);
-        return b ? R.ok() : R.fail();
+        return sysUserService.updateStatus(userId, status) ? R.ok() : R.fail();
     }
 
     /**
@@ -39,8 +39,7 @@ public class SysUserController {
      */
     @DeleteMapping("/deleteUser/{userId}")
     public R deleteUser(@PathVariable Long userId) {
-        boolean b = sysUserService.removeById(userId);
-        return b ? R.ok() : R.fail();
+        return sysUserService.removeById(userId) ? R.ok() : R.fail();
     }
 
     /**
@@ -50,8 +49,7 @@ public class SysUserController {
      */
     @GetMapping("/getUser/{userId}")
     public R getUser(@PathVariable Long userId) {
-        SysUser user = sysUserService.getById(userId);
-        return R.ok(user);
+        return R.ok(sysUserService.getById(userId));
     }
 
     /**
@@ -63,8 +61,7 @@ public class SysUserController {
     @PutMapping("/getUser/{userId}")
     public R updateUser(@RequestBody SysUser user) {
         user.setUpdateTime(null);
-        boolean b = sysUserService.updateById(user);
-        return b ? R.ok() : R.fail();
+        return sysUserService.updateById(user) ? R.ok() : R.fail();
     }
 
     /**
@@ -74,9 +71,8 @@ public class SysUserController {
      */
     @PutMapping("/addUser")
     public R addUser(@RequestBody SysUser user) {
-        user.setPassword(MD5.encrypt(user.getPassword()));
+        user.setPassword(Salt.encrypt(user.getPassword()));
         user.setHeadUrl("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        boolean b = sysUserService.save(user);
-        return b ? R.ok() : R.fail();
+        return sysUserService.save(user) ? R.ok() : R.fail();
     }
 }
