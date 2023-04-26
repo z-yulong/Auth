@@ -12,17 +12,30 @@
     <artifactId>service-sys</artifactId>
 
     <dependencies>
+        <!--service-util-->
         <dependency>
             <groupId>com.zyl</groupId>
             <artifactId>service-util</artifactId>
             <version>2.1</version>
         </dependency>
+
+        <!--test-->
         <dependency>
-            <groupId>com.zyl</groupId>
-            <artifactId>model</artifactId>
-            <version>2.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

@@ -10,7 +10,32 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-util</artifactId>
+    <packaging>jar</packaging>
 
+    <dependencies>
+        <!--model-->
+        <dependency>
+            <groupId>com.zyl</groupId>
+            <artifactId>model</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <!--web-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--json-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

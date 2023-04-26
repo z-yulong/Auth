@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: service-system #给当前应用程序起一个
+  profiles:
+    active: dev
