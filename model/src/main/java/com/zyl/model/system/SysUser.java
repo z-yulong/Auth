@@ -11,59 +11,81 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 用户
+ */
 @Data
-@ApiModel(description = "用户")
 @TableName("sys_user")
 public class SysUser extends BaseEntity {
-	
-	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "用户名")
-	@TableField("username")
-	private String username;
+    private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "密码")
-	@TableField("password")
-	private String password;
+    /**
+     * 用户名
+     */
+    @TableField("username")
+    private String username;
+    /**
+     * 密码
+     */
+    @TableField("password")
+    private String password;
+    /**
+     * 姓名
+     */
+    @TableField("name")
+    private String name;
+    /**
+     * 手机
+     */
+    @TableField("phone")
+    private String phone;
+    /**
+     * 头像地址
+     */
+    @TableField("head_url")
+    private String headUrl;
+    /**
+     * 部门id
+     */
+    @TableField("dept_id")
+    private Long deptId;
+    /**
+     * 岗位id
+     */
+    @TableField("post_id")
+    private Long postId;
+    /**
+     * 描述
+     */
+    @TableField("description")
+    private String description;
+    /**
+     * 状态（1：正常 0：停用）
+     */
+    @TableField("status")
+    private Integer status;
+    /**
+     * roleList
+     */
+    @TableField(exist = false)
+    private List<SysRole> roleList;
 
-	@ApiModelProperty(value = "姓名")
-	@TableField("name")
-	private String name;
+    /**
+     * 岗位
+     */
+    @TableField(exist = false)
+    private String postName;
 
-	@ApiModelProperty(value = "手机")
-	@TableField("phone")
-	private String phone;
-
-	@ApiModelProperty(value = "头像地址")
-	@TableField("head_url")
-	private String headUrl;
-
-	@ApiModelProperty(value = "部门id")
-	@TableField("dept_id")
-	private Long deptId;
-
-	@ApiModelProperty(value = "岗位id")
-	@TableField("post_id")
-	private Long postId;
-
-	@ApiModelProperty(value = "描述")
-	@TableField("description")
-	private String description;
-
-	@ApiModelProperty(value = "状态（1：正常 0：停用）")
-	@TableField("status")
-	private Integer status;
-
-	@TableField(exist = false)
-	private List<SysRole> roleList;
-	//岗位
-	@TableField(exist = false)
-	private String postName;
-	//部门
-	@TableField(exist = false)
-	private String deptName;
-	
-	@TableField(exist = false)
-	List<String> userPermsList;
+    /**
+     * 部门
+     */
+    @TableField(exist = false)
+    private String deptName;
+    /**
+     * userPermsList
+     */
+    @TableField(exist = false)
+    List<String> userPermsList;
 }
 
