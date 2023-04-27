@@ -3,7 +3,7 @@ package com.zyl.common.result;
 import lombok.Getter;
 
 @Getter
-public enum ResultCodeEnum {
+public enum ResultCode {
     SUCCESS(200,"成功"),
     FAIL(201, "失败"),
     SERVICE_ERROR(2012, "服务异常"),
@@ -18,14 +18,13 @@ public enum ResultCodeEnum {
     PASSWORD_ERROR(215, "密码不正确"),
     LOGIN_MOBLE_ERROR( 216, "账号不正确"),
     ACCOUNT_STOP( 217, "账号已停用"),
-    NODE_ERROR( 218, "该节点下有子节点，不可以删除")
-            ;
+    NODE_ERROR( 218, "该节点下有子节点，不可以删除");
 
     private Integer code;
 
     private String message;
 
-    private ResultCodeEnum(Integer code, String message) {
+    private ResultCode(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

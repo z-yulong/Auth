@@ -1,16 +1,15 @@
 package com.zyl.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyl.common.result.R;
-import com.zyl.common.result.ResultCodeEnum;
+import com.zyl.common.result.ResultCode;
 import com.zyl.common.util.Salt;
 import com.zyl.model.system.SysUser;
 import com.zyl.model.vo.LoginVo;
 import com.zyl.system.exception.MyException;
 import com.zyl.system.mapper.SysUserMapper;
 import com.zyl.system.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -55,29 +54,35 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser getUserByUsername(String username) {
-        return baseMapper.selectOne(new QueryWrapper<SysUser>().eq("username",username));
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<SysUser>();
+        queryWrapper.eq(!StringUtils.isEmpty(username), SysUser::getUsername, username);
+        return baseMapper.selectOne(queryWrapper);
     }
 
+    /**
+     * 登陆
+     */
     @Override
-    public R login(LoginVo loginVo) {
+    public R<Map<String,Object>> login(LoginVo loginVo) {
         String username=loginVo.getUsername();
         String password=loginVo.getPassword();
         //参数是否拿到
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
             throw new MyException(444,"用户名或密码不能为空！");
         }
+        //根据用户名查询用户
         SysUser user = this.getUserByUsername(username);
         //根据username是否查询到一个user
         if(null==user){
-            return R.build(null, ResultCodeEnum.ACCOUNT_ERROR);
+            return R.build(null, ResultCode.ACCOUNT_ERROR);
         }
         //验证密码
         if(!Salt.verify(password,user.getPassword())){
-            return R.build(null, ResultCodeEnum.PASSWORD_ERROR);
+            return R.build(null, ResultCode.PASSWORD_ERROR);
         }
         //判断用户是否被禁用
         if(user.getStatus() == 0){
-            return R.build(null, ResultCodeEnum.ACCOUNT_STOP);
+            return R.build(null, ResultCode.ACCOUNT_STOP);
         }
         // UUID 生成token
         String token = UUID.randomUUID().toString().replaceAll("-", "");

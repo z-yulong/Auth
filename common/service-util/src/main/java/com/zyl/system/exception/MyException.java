@@ -1,6 +1,6 @@
 package com.zyl.system.exception;
 
-import com.zyl.common.result.ResultCodeEnum;
+import com.zyl.common.result.ResultCode;
 
 /**
  * @author: zyl
@@ -24,12 +24,12 @@ public class MyException extends RuntimeException{
 
     /**
      * 接收枚举类型对象
-     * @param resultCodeEnum
+     * @param resultCode
      */
-    public MyException(ResultCodeEnum resultCodeEnum) {
-        super(resultCodeEnum.getMessage());
-        this.code = resultCodeEnum.getCode();
-        this.message = resultCodeEnum.getMessage();
+    public MyException(ResultCode resultCode) {
+        super(resultCode.getMessage());
+        this.code = resultCode.getCode();
+        this.message = resultCode.getMessage();
     }
 
     @Override

@@ -1,6 +1,10 @@
 package com.zyl.system;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zyl.model.system.SysRole;
 import com.zyl.model.system.SysUser;
+import com.zyl.model.system.SysUserRole;
 import com.zyl.system.mapper.SysUserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,4 +26,5 @@ public class test {
 
         sysUsers.forEach(System.out::println);
     }
+
 }

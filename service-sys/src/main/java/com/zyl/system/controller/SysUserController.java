@@ -1,11 +1,9 @@
 package com.zyl.system.controller;
 
 import com.zyl.common.result.R;
-import com.zyl.common.util.MD5;
 import com.zyl.common.util.Salt;
 import com.zyl.model.system.SysUser;
 import com.zyl.system.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,12 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/system/sysUser")
 public class SysUserController {
     private final SysUserService sysUserService;
+
     public SysUserController(SysUserService sysUserService) {
         this.sysUserService = sysUserService;
     }
 
     /**
      * 更新用户状态
+     *
      * @param userId userId
      * @param status 状态
      * @return R
@@ -44,6 +44,7 @@ public class SysUserController {
 
     /**
      * 根据id查询用户
+     *
      * @param userId userId
      * @return R
      */
@@ -66,10 +67,11 @@ public class SysUserController {
 
     /**
      * 添加用户
+     *
      * @param user user
      * @return R
      */
-    @PutMapping("/addUser")
+    @PostMapping("/addUser")
     public R addUser(@RequestBody SysUser user) {
         user.setPassword(Salt.encrypt(user.getPassword()));
         user.setHeadUrl("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
