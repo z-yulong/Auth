@@ -9,8 +9,7 @@ import java.util.List;
  *
  */
 @Data
-public class RouterVo
-{
+public class RouterVo {
     /**
      * 路由名字
      */
