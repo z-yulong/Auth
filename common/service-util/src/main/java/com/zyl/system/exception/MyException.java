@@ -1,11 +1,13 @@
 package com.zyl.system.exception;
 
 import com.zyl.common.result.ResultCode;
+import lombok.Data;
 
 /**
  * @author: zyl
  * @date 2023/4/26 20:33
  */
+@Data
 public class MyException extends RuntimeException{
     private Integer code;
 
@@ -24,12 +26,12 @@ public class MyException extends RuntimeException{
 
     /**
      * 接收枚举类型对象
-     * @param resultCode
+     * @param resultCodeEnum
      */
-    public MyException(ResultCode resultCode) {
-        super(resultCode.getMessage());
-        this.code = resultCode.getCode();
-        this.message = resultCode.getMessage();
+    public MyException(ResultCode resultCodeEnum) {
+        super(resultCodeEnum.getMessage());
+        this.code = resultCodeEnum.getCode();
+        this.message = resultCodeEnum.getMessage();
     }
 
     @Override

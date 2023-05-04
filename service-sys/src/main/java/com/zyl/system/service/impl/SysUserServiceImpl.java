@@ -27,9 +27,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
-    private final RedisTemplate<String, SysUser> redisTemplate;
+    private final RedisTemplate<String,Object> redisTemplate;
 
-    public SysUserServiceImpl(RedisTemplate<String, SysUser> redisTemplate) {
+    public SysUserServiceImpl(RedisTemplate<String,Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -61,7 +61,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     /**
-     * 登陆
+     * 登录
      */
     @Override
     public R<Map<String, Object>> login(LoginVo loginVo) {
@@ -75,17 +75,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser user = this.getUserByUsername(username);
         //根据username是否查询到一个user
         if (null == user) {
-            return R.fail(ResultCode.ACCOUNT_ERROR);
+            throw new MyException(ResultCode.ACCOUNT_ERROR);
         }
         //验证密码
         if (!Salt.verify(password, user.getPassword())) {
-            return R.fail(ResultCode.PASSWORD_ERROR);
+            throw new MyException(ResultCode.PASSWORD_ERROR);
         }
         //判断用户是否被禁用
         if (user.getStatus() == 0) {
-            return R.fail(ResultCode.ACCOUNT_STOP);
+            throw new MyException(ResultCode.ACCOUNT_STOP);
         }
-        // UUID 生成token
+        //生成token
         String token = JWTUtil.createToken(user);
         //将用户存入redis，有效期2小时
         redisTemplate.boundValueOps(token).set(user, 2, TimeUnit.HOURS);
@@ -93,5 +93,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         map.put("token", token);
         map.put("user", user);
         return R.ok(map);
+    }
+
+    @Override
+    public R<Map<String, Object>> logout(String token) {
+        Boolean b = redisTemplate.delete(token);
+        return b ? R.ok() : R.fail();
     }
 }

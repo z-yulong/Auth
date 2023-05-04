@@ -2,7 +2,6 @@ package com.zyl.system.controller;
 
 import com.zyl.common.result.R;
 import com.zyl.model.system.SysDept;
-import com.zyl.model.system.SysRole;
 import com.zyl.system.service.SysDeptService;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +43,7 @@ public class SysDeptController {
      * 修改部门
      * @param sysDept 部门
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody SysDept sysDept) {
         sysDept.setUpdateTime(null);
         boolean b = deptService.updateById(sysDept);

@@ -20,4 +20,5 @@ public interface SysUserService extends IService<SysUser> {
 
     R<Map<String,Object>> login(LoginVo loginVo);
 
+    R<Map<String, Object>> logout(String token);
 }

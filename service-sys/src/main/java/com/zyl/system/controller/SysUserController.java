@@ -6,6 +6,11 @@ import com.zyl.model.system.SysUser;
 import com.zyl.system.service.SysUserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author: zyl
  * @date 2023/4/26 18:17
@@ -76,5 +81,19 @@ public class SysUserController {
         user.setPassword(Salt.encrypt(user.getPassword()));
         user.setHeadUrl("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         return sysUserService.save(user) ? R.ok() : R.fail();
+    }
+
+    @GetMapping("/info")
+    public R info(String token){
+        System.out.println(token);
+        Map<String,Object> res=new HashMap<String,Object>();
+        List<String> list=new ArrayList<String>();
+        list.add("admin");
+
+        res.put("roles",list);
+        res.put("introduction", "I am a super administrator");
+        res.put("avatar", "https://img1.baidu.com/it/u=4142578214,2550299779&fm=253&fmt=auto&app=138&f=GIF?w=530&h=500");
+        res.put("name", "Super Admin");
+        return R.ok(res);
     }
 }

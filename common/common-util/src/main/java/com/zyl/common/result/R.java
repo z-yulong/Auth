@@ -1,9 +1,12 @@
 package com.zyl.common.result;
 
+import lombok.Data;
+
 /**
  * @author: zyl
  * @date 2023/4/26 18:31
  */
+@Data
 public class R<T> {
 
     private Integer code;
@@ -21,14 +24,54 @@ public class R<T> {
         this.data = data;
     }
 
-    protected static <T> R<T> build(ResultCode resultCode) {
+    /**
+     * 操作成功
+     */
+    public static <T> R<T> ok() {
+        return R.ok(null);
+    }
+
+    public static <T> R<T> ok(T data) {
+        return build(data, ResultCode.SUCCESS);
+    }
+
+    /**
+     * 操作失败
+     */
+    public static <T> R<T> fail() {
+        return R.fail(null);
+    }
+
+    public static <T> R<T> fail(T data) {
+        return build(data, ResultCode.FAIL);
+    }
+
+    public static <T> R<T> fail(ResultCode resultCode) {
+        return build(ResultCode.FAIL);
+    }
+
+    public static <T> R<T> fail(T data, ResultCode resultCode) {
+        return build(data, resultCode);
+    }
+
+    public R<T> message(String msg) {
+        this.setMessage(msg);
+        return this;
+    }
+
+    public R<T> code(Integer code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public static <T> R<T> build(ResultCode resultCode) {
         R<T> r = new R<T>();
         r.setCode(resultCode.getCode());
         r.setMessage(resultCode.getMessage());
         return r;
     }
 
-    protected static <T> R<T> build(T data) {
+    public static <T> R<T> build(T data) {
         R<T> r = new R<T>();
         if (data != null)
             r.setData(data);
@@ -49,109 +92,4 @@ public class R<T> {
         return r;
     }
 
-    public static <T> R<T> ok() {
-        return R.ok(null);
-    }
-
-    /**
-     * 操作成功
-     *
-     * @param data baseCategory1List
-     * @param <T>
-     * @return
-     */
-    public static <T> R<T> ok(T data) {
-        return build(data, ResultCode.SUCCESS);
-    }
-
-    public static <T> R<T> fail() {
-        return R.fail(null);
-    }
-
-    /**
-     * 操作失败
-     *
-     * @param data
-     * @param <T>
-     * @return
-     */
-    public static <T> R<T> fail(T data) {
-        return build(data, ResultCode.FAIL);
-    }
-
-    public static <T> R<T> fail(T data, ResultCode resultCode) {
-        return build(data, resultCode);
-    }
-
-    public static <T> R<T> fail(ResultCode resultCode) {
-        return build(resultCode);
-    }
-
-    public R<T> message(String msg) {
-        this.setMessage(msg);
-        return this;
-    }
-
-    public R<T> code(Integer code) {
-        this.setCode(code);
-        return this;
-    }
-
-    /**
-     * 获取
-     *
-     * @return code
-     */
-    public Integer getCode() {
-        return code;
-    }
-
-    /**
-     * 设置
-     *
-     * @param code
-     */
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    /**
-     * 获取
-     *
-     * @return message
-     */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * 设置
-     *
-     * @param message
-     */
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    /**
-     * 获取
-     *
-     * @return data
-     */
-    public T getData() {
-        return data;
-    }
-
-    /**
-     * 设置
-     *
-     * @param data
-     */
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public String toString() {
-        return "R{code = " + code + ", message = " + message + ", data = " + data + "}";
-    }
 }

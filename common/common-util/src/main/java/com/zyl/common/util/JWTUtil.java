@@ -1,5 +1,6 @@
 package com.zyl.common.util;
 
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -7,7 +8,6 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zyl.model.system.SysUser;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class JWTUtil {
     //token有效时长(2小时)
     private static final long EXPIRE = 2 * 60 * 60 * 1000L;
     //token的密钥
-    private static final String SECRET = "jwt+shiro";
+    private static final String SECRET = "wph0331admin";
 
     public static String createToken(SysUser sysUser) {
         //token过期时间

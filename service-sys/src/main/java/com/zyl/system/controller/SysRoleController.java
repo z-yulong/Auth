@@ -20,12 +20,14 @@ import java.util.List;
 public class SysRoleController {
 
     private final SysRoleService roleService;
+
     public SysRoleController(SysRoleService roleService) {
         this.roleService = roleService;
     }
 
     /**
      * 获取全部角色
+     *
      * @return 角色列表
      */
     @GetMapping("getAll")
@@ -36,6 +38,7 @@ public class SysRoleController {
 
     /**
      * 根据id获取角色信息（数据回显）
+     *
      * @param id id
      * @return role
      */
@@ -47,6 +50,7 @@ public class SysRoleController {
 
     /**
      * 新增角色
+     *
      * @param sysRole 角色信息
      * @return R
      */
@@ -58,6 +62,7 @@ public class SysRoleController {
 
     /**
      * 根据id删除角色
+     *
      * @param id 角色id
      * @return R
      */
@@ -69,6 +74,7 @@ public class SysRoleController {
 
     /**
      * 根据id批量删除角色
+     *
      * @param ids id列表
      * @return R
      */
@@ -80,6 +86,7 @@ public class SysRoleController {
 
     /**
      * 根据id更新角色
+     *
      * @param sysRole 角色id
      * @return R
      */
@@ -91,8 +98,9 @@ public class SysRoleController {
 
     /**
      * 根据模糊查询分页查询角色信息
-     * @param pageNum 页码
-     * @param size 页长
+     *
+     * @param pageNum        页码
+     * @param size           页长
      * @param sysRoleQueryVo 条件
      * @return 角色列表
      */
@@ -100,7 +108,7 @@ public class SysRoleController {
     public R<Page<SysRole>> update(@PathVariable Integer pageNum, @PathVariable Integer size, @RequestBody SysRoleQueryVo sysRoleQueryVo) {
         Page<SysRole> page = new Page<>(pageNum, size);
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(!StringUtils.isEmpty(sysRoleQueryVo.getRoleName()), SysRole::getRoleName,sysRoleQueryVo.getRoleName());
+        queryWrapper.like(!StringUtils.isEmpty(sysRoleQueryVo.getRoleName()), SysRole::getRoleName, sysRoleQueryVo.getRoleName());
         roleService.page(page, queryWrapper);
         return R.ok(page);
     }
