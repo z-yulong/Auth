@@ -5,7 +5,7 @@ import com.zyl.model.system.SysMenu;
 import com.zyl.system.service.SysMenuService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * @author: zyl
@@ -39,6 +39,12 @@ public class SysMenuController {
     @GetMapping("getById/{id}")
     public R<SysMenu> getById(@PathVariable Long id) {
         SysMenu menu = menuService.getById(id);
+        return R.ok(menu);
+    }
+
+    @GetMapping("findMenuNodes")
+    public R findMenu() {
+        List<SysMenu> menu = menuService.findMenuList();
         return R.ok(menu);
     }
 

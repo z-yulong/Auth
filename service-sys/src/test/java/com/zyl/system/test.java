@@ -1,11 +1,9 @@
 package com.zyl.system;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zyl.model.system.SysRole;
+import com.alibaba.excel.EasyExcel;
 import com.zyl.model.system.SysUser;
-import com.zyl.model.system.SysUserRole;
 import com.zyl.system.mapper.SysUserMapper;
+import com.zyl.system.util.ExcelListener;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,5 +24,16 @@ public class test {
 
         sysUsers.forEach(System.out::println);
     }
+    @Test
+    public void test1(){
+        //设置文件名称和路径
+        String fileName="d:\\Desktop\\01.xlsx";
+        //调用方法进行读操作
+        EasyExcel.read(fileName,SysUser.class,new ExcelListener(sysUserMapper))
+                .sheet()
+                .doRead();
+    }
+
+
 
 }

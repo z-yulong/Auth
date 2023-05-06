@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyl.common.result.R;
 import com.zyl.model.system.SysRole;
+import com.zyl.model.vo.AssignRoleVo;
 import com.zyl.model.vo.SysRoleQueryVo;
 import com.zyl.system.service.SysRoleService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * author: zyl
@@ -92,6 +95,7 @@ public class SysRoleController {
      */
     @PutMapping("update")
     public R update(@RequestBody SysRole sysRole) {
+        sysRole.setUpdateTime(new Date());
         boolean b = roleService.updateById(sysRole);
         return b ? R.ok() : R.fail();
     }
@@ -104,12 +108,29 @@ public class SysRoleController {
      * @param sysRoleQueryVo 条件
      * @return 角色列表
      */
-    @GetMapping("page/{pageNum}/{size}")
-    public R<Page<SysRole>> update(@PathVariable Integer pageNum, @PathVariable Integer size, @RequestBody SysRoleQueryVo sysRoleQueryVo) {
+    @PostMapping("page/{pageNum}/{size}")
+    public R<Page<SysRole>> selectPage(@PathVariable Integer pageNum, @PathVariable Integer size, @RequestBody SysRoleQueryVo sysRoleQueryVo) {
         Page<SysRole> page = new Page<>(pageNum, size);
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(!StringUtils.isEmpty(sysRoleQueryVo.getRoleName()), SysRole::getRoleName, sysRoleQueryVo.getRoleName());
         roleService.page(page, queryWrapper);
         return R.ok(page);
+    }
+
+    /**
+     * 获取用户角色信息
+     * @param userId 用户id
+     * @return 角色列表
+     */
+    @GetMapping("toAssign/{userId}")
+    public R toAssign(@PathVariable Long userId) {
+        Map<String,Object> roleMap = roleService.getRolesByUserId(userId);
+        return R.ok(roleMap);
+    }
+
+    @PostMapping("/doAssign")
+    public R doAssign(@RequestBody AssignRoleVo assginRoleVo) {
+        roleService.doAssign(assginRoleVo);
+        return R.ok();
     }
 }

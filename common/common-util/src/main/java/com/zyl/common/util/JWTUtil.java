@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class JWTUtil {
     //token有效时长(2小时)
-    private static final long EXPIRE = 2 * 60 * 60 * 1000L;
+    private static final long EXPIRE = 5 * 60 * 60 * 1000L;
     //token的密钥
     private static final String SECRET = "wph0331admin";
 

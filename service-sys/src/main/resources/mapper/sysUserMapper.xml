@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyl.system.mapper.SysUserMapper">
+
+    <sql id="columns">
+        id,username,password,`name`,phone,head_url,post_id,dept_id,description,status,create_time,update_time,is_deleted
+    </sql>
+    <!--分页、模糊查询-->
+    <select id="selectPage" resultType="com.zyl.model.system.SysUser">
+        select
+        <include refid="columns"/>
+        from sys_user
+        <where>
+            <if test="vo.keyword != null and vo.keyword != ''">
+                and username like concat('%',#{vo.keyword},'%')
+                or `name` like concat('%',#{vo.keyword},'%')
+                or `phone` like concat('%',#{vo.keyword},'%')
+            </if>
+            <if test="vo.createTimeBegin != null and vo.createTimeBegin != ''">
+                and create_time >= #{vo.createTimeBegin}
+            </if>
+            <if test="vo.createTimeEnd != null and vo.createTimeEnd != ''">
+                and create_time &lt;= #{vo.createTimeEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by id desc
+    </select>
+    <!--批量插入用户-->
+    <insert id="batchInsert" parameterType="com.zyl.model.system.SysUser">
+        insert into sys_user
+        (username,password,`name`,phone,head_url,status)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.username},#{item.password},#{item.name},#{item.phone},#{item.headUrl},#{item.status})
+        </foreach>
+    </insert>
+
+</mapper>

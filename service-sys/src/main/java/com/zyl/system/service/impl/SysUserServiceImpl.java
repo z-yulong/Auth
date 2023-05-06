@@ -1,6 +1,8 @@
 package com.zyl.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyl.common.result.R;
 import com.zyl.common.result.ResultCode;
@@ -8,6 +10,7 @@ import com.zyl.common.util.JWTUtil;
 import com.zyl.common.util.Salt;
 import com.zyl.model.system.SysUser;
 import com.zyl.model.vo.LoginVo;
+import com.zyl.model.vo.SysUserQueryVo;
 import com.zyl.system.exception.MyException;
 import com.zyl.system.mapper.SysUserMapper;
 import com.zyl.system.service.SysUserService;
@@ -28,9 +31,10 @@ import java.util.concurrent.TimeUnit;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final RedisTemplate<String,Object> redisTemplate;
-
-    public SysUserServiceImpl(RedisTemplate<String,Object> redisTemplate) {
+    private final SysUserMapper userMapper;
+    public SysUserServiceImpl(RedisTemplate<String,Object> redisTemplate, SysUserMapper userMapper) {
         this.redisTemplate = redisTemplate;
+        this.userMapper = userMapper;
     }
 
     /**
@@ -87,8 +91,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         //生成token
         String token = JWTUtil.createToken(user);
-        //将用户存入redis，有效期2小时
-        redisTemplate.boundValueOps(token).set(user, 2, TimeUnit.HOURS);
+        //将用户存入redis，有效期5小时
+        redisTemplate.boundValueOps(token).set(user, 5, TimeUnit.HOURS);
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("user", user);
@@ -100,4 +104,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Boolean b = redisTemplate.delete(token);
         return b ? R.ok() : R.fail();
     }
+
+    @Override
+    public IPage<SysUser> selectPage(Page<SysUser> pageParam, SysUserQueryVo sysUserQueryVo) {
+        return userMapper.selectPage(pageParam,sysUserQueryVo);
+    }
+
+
 }

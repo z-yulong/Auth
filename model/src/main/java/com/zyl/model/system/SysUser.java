@@ -1,12 +1,9 @@
 package com.zyl.model.system;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-
 import com.zyl.model.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -24,21 +21,25 @@ public class SysUser extends BaseEntity {
      * 用户名
      */
     @TableField("username")
+    @ExcelProperty(value = "用户名",index = 0)
     private String username;
     /**
      * 密码
      */
     @TableField("password")
+    @ExcelProperty(value = "密码",index = 1)
     private String password;
     /**
      * 姓名
      */
     @TableField("name")
+    @ExcelProperty(value = "姓名",index = 2)
     private String name;
     /**
      * 手机
      */
     @TableField("phone")
+    @ExcelProperty(value = "手机",index = 3)
     private String phone;
     /**
      * 头像地址
