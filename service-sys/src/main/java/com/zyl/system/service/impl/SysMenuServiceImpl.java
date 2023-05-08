@@ -9,6 +9,7 @@ import com.zyl.model.vo.AssignMenuVo;
 import com.zyl.system.mapper.SysMenuMapper;
 import com.zyl.system.mapper.SysRoleMenuMapper;
 import com.zyl.system.service.SysMenuService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +20,9 @@ import java.util.stream.Collectors;
  * date 2023/4/27 19:34
  */
 @Service
+@AllArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
    private final SysRoleMenuMapper sysRoleMenuMapper;
-
-    public SysMenuServiceImpl(SysRoleMenuMapper sysRoleMenuMapper) {
-        this.sysRoleMenuMapper = sysRoleMenuMapper;
-    }
 
     @Override
     public List<SysMenu> findMenuList() {

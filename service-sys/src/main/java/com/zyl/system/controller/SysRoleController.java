@@ -7,6 +7,7 @@ import com.zyl.model.system.SysRole;
 import com.zyl.model.vo.AssignRoleVo;
 import com.zyl.model.vo.SysRoleQueryVo;
 import com.zyl.system.service.SysRoleService;
+import lombok.AllArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +20,11 @@ import java.util.Map;
  * date 2023/4/27 15:52
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/admin/system/sysRole")
 public class SysRoleController {
 
     private final SysRoleService roleService;
-
-    public SysRoleController(SysRoleService roleService) {
-        this.roleService = roleService;
-    }
 
     /**
      * 获取全部角色

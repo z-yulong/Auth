@@ -3,6 +3,7 @@ package com.zyl.system.controller;
 import com.zyl.common.result.R;
 import com.zyl.model.system.SysDept;
 import com.zyl.system.service.SysDeptService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -10,13 +11,10 @@ import org.springframework.web.bind.annotation.*;
  * @date 2023/4/27 19:58
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/admin/system/sysDept")
 public class SysDeptController {
     private final SysDeptService deptService;
-
-    public SysDeptController(SysDeptService deptService) {
-        this.deptService = deptService;
-    }
 
     /**
      * 根据id获取部门

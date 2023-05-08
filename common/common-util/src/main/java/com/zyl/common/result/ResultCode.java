@@ -12,6 +12,8 @@ public enum ResultCode {
     REPEAT_SUBMIT(206, "重复提交"),
     ARGUMENT_VALID_ERROR(210, "参数校验异常"),
 
+    USERNAME_PASSWORD_NULL(213, "用户名或密码不能为空"),
+
     LOGIN_AUTH(208, "未登陆"),
     PERMISSION(209, "没有权限"),
     ACCOUNT_ERROR(214, "账号不正确"),

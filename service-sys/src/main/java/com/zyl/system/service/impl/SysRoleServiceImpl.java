@@ -8,6 +8,7 @@ import com.zyl.model.vo.AssignRoleVo;
 import com.zyl.system.mapper.SysRoleMapper;
 import com.zyl.system.mapper.SysUserRoleMapper;
 import com.zyl.system.service.SysRoleService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,14 +20,10 @@ import java.util.Map;
  * @date 2023/4/27 15:54
  */
 @Service
+@AllArgsConstructor
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
     private  final SysRoleMapper sysRoleMapper;
     private  final SysUserRoleMapper sysUserRoleMapper;
-    public SysRoleServiceImpl(SysRoleMapper sysRoleMapper, SysUserRoleMapper sysUserRoleMapper) {
-        this.sysRoleMapper = sysRoleMapper;
-        this.sysUserRoleMapper = sysUserRoleMapper;
-    }
-
     @Override
     public Map<String,Object> getRolesByUserId(Long userId) {
         Map<String,Object> map = new HashMap<>();

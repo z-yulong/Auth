@@ -10,6 +10,7 @@ import com.zyl.model.vo.SysUserQueryVo;
 import com.zyl.system.mapper.SysUserMapper;
 import com.zyl.system.service.SysUserService;
 import com.zyl.system.util.ExcelListener;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,16 +26,11 @@ import java.util.Map;
  * @date 2023/4/26 18:17
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/admin/system/sysUser")
-@CrossOrigin
 public class SysUserController {
     private final SysUserService userService;
-    private final SysUserMapper sysUserMapperl;
-
-    public SysUserController(SysUserService userService, SysUserMapper sysUserMapperl) {
-        this.userService = userService;
-        this.sysUserMapperl = sysUserMapperl;
-    }
+    private final SysUserMapper sysUserMapper;
 
     /**
      * 更新用户状态
@@ -123,7 +119,7 @@ public class SysUserController {
     @PostMapping("/batchInsert")
     public R batchInsert(@RequestParam ("file") MultipartFile myFile) {
         try (InputStream is = myFile.getInputStream()) {
-            EasyExcel.read(is, SysUser.class, new ExcelListener(sysUserMapperl)).sheet().doRead();
+            EasyExcel.read(is, SysUser.class, new ExcelListener(sysUserMapper)).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
         }

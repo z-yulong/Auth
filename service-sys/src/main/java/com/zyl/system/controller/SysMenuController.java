@@ -4,6 +4,7 @@ import com.zyl.common.result.R;
 import com.zyl.model.system.SysMenu;
 import com.zyl.model.vo.AssignMenuVo;
 import com.zyl.system.service.SysMenuService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,13 +14,11 @@ import java.util.List;
  * date 2023/4/27 19:36
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/admin/system/sysMenu")
 public class SysMenuController {
 
     private final SysMenuService menuService;
-    public SysMenuController(SysMenuService menuService) {
-        this.menuService = menuService;
-    }
     /**
      * 添加菜单
      * @param sysMenu 菜单

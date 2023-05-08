@@ -14,6 +14,7 @@ import com.zyl.model.vo.SysUserQueryVo;
 import com.zyl.system.exception.MyException;
 import com.zyl.system.mapper.SysUserMapper;
 import com.zyl.system.service.SysUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,14 +29,11 @@ import java.util.concurrent.TimeUnit;
  * date 2023/4/26 18:12
  */
 @Service
+@AllArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final RedisTemplate<String,Object> redisTemplate;
     private final SysUserMapper userMapper;
-    public SysUserServiceImpl(RedisTemplate<String,Object> redisTemplate, SysUserMapper userMapper) {
-        this.redisTemplate = redisTemplate;
-        this.userMapper = userMapper;
-    }
 
     /**
      * 更新用户状态
@@ -73,7 +71,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String password = loginVo.getPassword();
         //参数是否拿到
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            throw new MyException(444, "用户名或密码不能为空！");
+            throw new MyException(ResultCode.USERNAME_PASSWORD_NULL);
         }
         //根据用户名查询用户
         SysUser user = this.getUserByUsername(username);
