@@ -97,6 +97,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return R.ok(map);
     }
 
+
     @Override
     public R<Map<String, Object>> logout(String token) {
         Boolean b = redisTemplate.delete(token);
