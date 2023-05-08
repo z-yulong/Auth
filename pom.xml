@@ -28,6 +28,7 @@
         <jwt.version>3.10.3</jwt.version>
         <jjwt.version>0.9.1</jjwt.version>
         <easyexcel-version>2.1.1</easyexcel-version>
+        <spring-security-version>2.3.6.RELEASE</spring-security-version>
     </properties>
 
     <dependencyManagement>
@@ -73,6 +74,12 @@
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
             </dependency>
+
+          <!--  <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-security-version}</version>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 

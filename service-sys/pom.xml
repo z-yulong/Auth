@@ -18,6 +18,12 @@
             <artifactId>service-util</artifactId>
             <version>2.1</version>
         </dependency>
+        <!--service-security-->
+        <dependency>
+            <groupId>com.zyl</groupId>
+            <artifactId>spring-security</artifactId>
+            <version>2.1</version>
+        </dependency>
 
         <!--test-->
         <dependency>

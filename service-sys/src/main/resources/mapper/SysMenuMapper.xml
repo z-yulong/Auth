@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zyl.system.mapper.SysMenuMapper">
 
+    <!--根据用户id查询用户的权限菜单-->
+    <select id="selectMenuListByUserId" resultType="com.zyl.model.system.SysMenu">
+        select distinct sm.*
+        from sys_menu sm
+                 inner join sys_role_menu srm
+                            on sm.id = srm.menu_id
+                 inner join sys_user_role sur
+                            on srm.role_id = sur.role_id
+        where sur.user_id = #{userId}
+          and sm.status = 1
+          and sm.is_deleted = 0
+          and srm.is_deleted = 0
+          and sur.is_deleted = 0
+    </select>
 </mapper>

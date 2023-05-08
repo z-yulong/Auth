@@ -8,6 +8,7 @@ import com.zyl.model.system.SysUser;
 import com.zyl.model.vo.LoginVo;
 import com.zyl.model.vo.SysUserQueryVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +27,17 @@ public interface SysUserService extends IService<SysUser> {
     R<Map<String, Object>> logout(String token);
 
     IPage<SysUser> selectPage(Page<SysUser> pageParam, SysUserQueryVo sysUserQueryVo);
+
+    /**
+     * 根据用户id获取用户登录信息
+     * @return
+     */
+    Map<String, Object> getUserInfoByUserId(Long userId);
+
+    /**
+     * 根据用户id获取用户按钮权限标识符
+     */
+    List<String> getUserBtnPermsByUserId(Long id);
+
 
 }

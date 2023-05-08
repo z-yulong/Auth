@@ -2,7 +2,7 @@ package com.zyl.system.util;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.zyl.common.util.Salt;
+import com.zyl.common.util.SHA256;
 import com.zyl.model.system.SysUser;
 import com.zyl.system.mapper.SysUserMapper;
 
@@ -26,7 +26,7 @@ public class ExcelListener extends AnalysisEventListener<SysUser> {
     public void invoke(SysUser user, AnalysisContext context) {
         user.setStatus(1);
         user.setHeadUrl("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
-        user.setPassword(Salt.encrypt(user.getPassword()));
+        user.setPassword(SHA256.encrypt(user.getPassword()));
         users.add(user);
         if (users.size() == 1024) {
             this.saveData();

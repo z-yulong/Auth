@@ -11,7 +11,7 @@ import java.security.spec.InvalidKeySpecException;
  * @author: zyl
  * @date 2023/3/17 20:41
  */
-public class Salt {
+public class SHA256 {
 
     private static final int SALT_LENGTH = 32; //盐值长度
     private static final int ITERATIONS = 10000; //迭代次数
@@ -35,6 +35,8 @@ public class Salt {
             throw new RuntimeException(e); // 抛出运行时异常
         }
     }
+
+
 
     /**
      * 验证给定的密码是否与存储的哈希值匹配
