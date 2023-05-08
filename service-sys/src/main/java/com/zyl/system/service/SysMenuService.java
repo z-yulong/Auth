@@ -2,6 +2,7 @@ package com.zyl.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zyl.model.system.SysMenu;
+import com.zyl.model.vo.AssignMenuVo;
 
 import java.util.List;
 
@@ -12,4 +13,9 @@ import java.util.List;
 
 public interface SysMenuService extends IService<SysMenu> {
     List<SysMenu> findMenuList();
+
+    List<SysMenu> getRoleMenuList(Long roleId);
+
+    void doAssign(AssignMenuVo assignMenuVo);
+
 }

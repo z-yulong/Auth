@@ -2,21 +2,21 @@ package com.zyl.system.controller;
 
 import com.zyl.common.result.R;
 import com.zyl.model.system.SysMenu;
+import com.zyl.model.vo.AssignMenuVo;
 import com.zyl.system.service.SysMenuService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @author: zyl
- * @date 2023/4/27 19:36
+ * author: zyl<br/>
+ * date 2023/4/27 19:36
  */
 @RestController
 @RequestMapping("/admin/system/sysMenu")
 public class SysMenuController {
 
     private final SysMenuService menuService;
-
     public SysMenuController(SysMenuService menuService) {
         this.menuService = menuService;
     }
@@ -42,6 +42,9 @@ public class SysMenuController {
         return R.ok(menu);
     }
 
+    /**
+     * 菜单列表
+     */
     @GetMapping("findMenuNodes")
     public R findMenu() {
         List<SysMenu> menu = menuService.findMenuList();
@@ -68,6 +71,19 @@ public class SysMenuController {
         sysMenu.setUpdateTime(null);
         boolean b = menuService.updateById(sysMenu);
         return b ? R.ok() : R.fail();
+    }
+    //根据角色id查询角色的菜单
+    @GetMapping("getRoleMenuList/{roleId}")
+    public R getRoleMenuList(@PathVariable Long roleId) {
+        List<SysMenu> list=menuService.getRoleMenuList(roleId);
+
+        return R.ok(list);
+    }
+    //分配权限
+    @PostMapping("assignMenu")
+    public R assignMenu(@RequestBody AssignMenuVo assignMenuVo) {
+        menuService.doAssign(assignMenuVo);
+        return R.ok();
     }
 
 }
