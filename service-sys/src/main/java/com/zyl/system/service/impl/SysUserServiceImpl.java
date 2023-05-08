@@ -94,7 +94,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("user", user);
-        return R.ok(map);
+        return R.ok(map) ;
     }
 
 
