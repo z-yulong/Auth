@@ -51,8 +51,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
      * 登录认证
      */
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-            throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
             LoginVo loginVo = new ObjectMapper().readValue(req.getInputStream(), LoginVo.class);
 

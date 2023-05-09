@@ -8,15 +8,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyl.common.helper.MenuHelper;
 import com.zyl.common.helper.RouterHelper;
 import com.zyl.common.result.R;
-import com.zyl.common.result.ResultCode;
-import com.zyl.common.util.JWTUtil;
-import com.zyl.common.util.SHA256;
 import com.zyl.model.system.SysMenu;
 import com.zyl.model.system.SysUser;
-import com.zyl.model.vo.LoginVo;
 import com.zyl.model.vo.RouterVo;
 import com.zyl.model.vo.SysUserQueryVo;
-import com.zyl.system.exception.MyException;
 import com.zyl.system.mapper.SysMenuMapper;
 import com.zyl.system.mapper.SysUserMapper;
 import com.zyl.system.service.SysUserService;
@@ -26,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * author: zyl
@@ -66,40 +60,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(!StringUtils.isEmpty(username), SysUser::getUsername, username);
         return baseMapper.selectOne(queryWrapper);
-    }
-
-    /**
-     * 登录
-     */
-    @Override
-    public R<Map<String, Object>> login(LoginVo loginVo) {
-        String username = loginVo.getUsername();
-        String password = loginVo.getPassword();
-        //参数是否拿到
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            throw new MyException(ResultCode.USERNAME_PASSWORD_NULL);
-        }
-        //根据用户名查询用户
-        SysUser user = this.getUserByUsername(username);
-        //根据username是否查询到一个user
-        if (null == user) {
-            throw new MyException(ResultCode.ACCOUNT_ERROR);
-        }
-        //验证密码
-        if (!SHA256.verify(password, user.getPassword())) {
-            throw new MyException(ResultCode.PASSWORD_ERROR);
-        }
-        //判断用户是否被禁用
-        if (user.getStatus() == 0) {
-            throw new MyException(ResultCode.ACCOUNT_STOP);
-        }
-        //生成token
-        String token = JWTUtil.createToken(user);
-        //将用户存入redis，有效期5小时
-        redisTemplate.boundValueOps(token).set(user, 5, TimeUnit.HOURS);
-        Map<String, Object> map = new HashMap<>();
-        map.put("token", token);
-        return R.ok(map);
     }
 
 

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author: zyl
@@ -29,12 +30,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         QueryWrapper<SysUser> qw = new QueryWrapper<>();
         qw.eq("username", username);
         SysUser sysUser = sysUserService.getOne(qw);
+
         if (null == sysUser) {
             throw new MyException(ResultCode.ACCOUNT_ERROR);
         }
+
         if (sysUser.getStatus().intValue() == 0) {
             throw new MyException(ResultCode.ACCOUNT_STOP);
         }
+        List<String> userPermsList = sysUserService.getUserBtnPermsByUserId(sysUser.getId());
+        sysUser.setUserPermsList(userPermsList);
         return new CustomUser(sysUser, Collections.emptyList());
     }
 

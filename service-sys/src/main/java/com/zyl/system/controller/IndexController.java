@@ -1,9 +1,8 @@
 package com.zyl.system.controller;
 
+import com.zyl.common.result.R;
 import com.zyl.model.system.SysUser;
 import com.zyl.system.service.SysUserService;
-import com.zyl.common.result.R;
-import com.zyl.model.vo.LoginVo;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +20,6 @@ public class IndexController {
     private final SysUserService userService;
     private final RedisTemplate redisTemplate;
 
-
-    /**
-     * 登录
-     */
-    @PostMapping("/login")
-    public R<Map<String,Object>> login(@RequestBody LoginVo loginVo) {
-        return userService.login(loginVo);
-    }
 
     /**
      * 登出

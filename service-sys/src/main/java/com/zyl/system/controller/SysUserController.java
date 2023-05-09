@@ -11,6 +11,7 @@ import com.zyl.system.mapper.SysUserMapper;
 import com.zyl.system.service.SysUserService;
 import com.zyl.system.util.ExcelListener;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ public class SysUserController {
      * @return R
      */
     @PutMapping("/updateStatus/{userId}/{status}")
+    @PreAuthorize("hasAuthority('bnt.sysUser.update')")
     public R updateStatus(@PathVariable Long userId, @PathVariable Integer status) {
         return userService.updateStatus(userId, status) ? R.ok() : R.fail();
     }
@@ -47,6 +49,7 @@ public class SysUserController {
      * @return R
      */
     @DeleteMapping("/deleteUser/{userId}")
+    @PreAuthorize("hasAuthority('bnt.sysUser.remove')")
     public R deleteUser(@PathVariable Long userId) {
         return userService.removeById(userId) ? R.ok() : R.fail();
     }
@@ -58,6 +61,7 @@ public class SysUserController {
      * @return R
      */
     @GetMapping("/getUser/{userId}")
+    @PreAuthorize("hasAuthority('bnt.sysUser.list')")
     public R getUser(@PathVariable Long userId) {
         return R.ok(userService.getById(userId));
     }
@@ -69,6 +73,7 @@ public class SysUserController {
      * @return R
      */
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('bnt.sysUser.update')")
     public R updateUser(@RequestBody SysUser user) {
         user.setUpdateTime(null);
         return userService.updateById(user) ? R.ok() : R.fail();
@@ -81,28 +86,17 @@ public class SysUserController {
      * @return R
      */
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('bnt.sysUser.add')")
     public R addUser(@RequestBody SysUser user) {
         user.setPassword(SHA256.encrypt(user.getPassword()));
         user.setHeadUrl("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         return userService.save(user) ? R.ok() : R.fail();
     }
 
-/*    @GetMapping("/info")
-    public R info(String token) {
-        System.out.println(token);
-        Map<String, Object> res = new HashMap<String, Object>();
-        List<String> list = new ArrayList<String>();
-        list.add("admin");
-
-        res.put("roles", list);
-        res.put("introduction", "I am a super administrator");
-        res.put("avatar", "https://img1.baidu.com/it/u=4142578214,2550299779&fm=253&fmt=auto&app=138&f=GIF?w=530&h=500");
-        res.put("name", "Super Admin");
-        return R.ok(res);
-    }*/
 
     @PostMapping("page/{pageNum}/{size}")
-    public R<IPage<SysUser>> update(@PathVariable Integer pageNum, @PathVariable Integer size, @RequestBody SysUserQueryVo sysUserQueryVo) {
+    @PreAuthorize("hasAuthority('bnt.sysUser.list')")
+    public R<IPage<SysUser>> getUserPage(@PathVariable Integer pageNum, @PathVariable Integer size, @RequestBody SysUserQueryVo sysUserQueryVo) {
         Page<SysUser> pageParam = new Page<>(pageNum, size);
         IPage<SysUser> pageModel = userService.selectPage(pageParam, sysUserQueryVo);
         return R.ok(pageModel);
@@ -113,6 +107,7 @@ public class SysUserController {
      * @param myFile excel文件
      */
     @PostMapping("/batchInsert")
+    @PreAuthorize("hasAuthority('bnt.sysUser.add')")
     public R batchInsert(@RequestParam ("file") MultipartFile myFile) {
         try (InputStream is = myFile.getInputStream()) {
             EasyExcel.read(is, SysUser.class, new ExcelListener(sysUserMapper)).sheet().doRead();

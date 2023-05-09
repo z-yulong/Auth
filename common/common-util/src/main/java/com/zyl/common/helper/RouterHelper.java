@@ -22,7 +22,7 @@ public class RouterHelper {
      * @return
      */
     public static List<RouterVo> buildRouters(List<SysMenu> menus) {
-        List<RouterVo> routers = new LinkedList<RouterVo>();
+        List<RouterVo> routers = new LinkedList<>();
         if(!CollectionUtils.isEmpty(menus)){
             for (SysMenu menu : menus) {
                 RouterVo router = new RouterVo();
@@ -33,7 +33,7 @@ public class RouterHelper {
                 router.setMeta(new MetaVo(menu.getName(), menu.getIcon()));
                 List<SysMenu> children = menu.getChildren();
                 //如果当前是菜单，需将按钮对应的路由加载出来，如：“角色授权”按钮对应的路由在“系统管理”下面
-                if(menu.getType().intValue() == 1) {
+                if(menu.getType() == 1) {
                     List<SysMenu> hiddenMenuList = children.stream().filter(item -> !StringUtils.isEmpty(item.getComponent())).collect(Collectors.toList());
                     for (SysMenu hiddenMenu : hiddenMenuList) {
                         RouterVo hiddenRouter = new RouterVo();

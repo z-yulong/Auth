@@ -8,6 +8,7 @@ import com.zyl.model.vo.AssignRoleVo;
 import com.zyl.model.vo.SysRoleQueryVo;
 import com.zyl.system.service.SysRoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class SysRoleController {
      * @return 角色列表
      */
     @GetMapping("getAll")
+    @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     public R<List<SysRole>> getAll() {
         List<SysRole> list = roleService.list();
         return R.ok(list);
@@ -44,6 +46,7 @@ public class SysRoleController {
      * @return role
      */
     @GetMapping("edit/{id}")
+    @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     public R<SysRole> getById(@PathVariable Long id) {
         SysRole sysRole = roleService.getById(id);
         return R.ok(sysRole);
@@ -56,6 +59,7 @@ public class SysRoleController {
      * @return R
      */
     @PostMapping("save")
+    @PreAuthorize("hasAuthority('bnt.sysRole.add')")
     public R save(@RequestBody SysRole sysRole) {
         boolean b = roleService.save(sysRole);
         return b ? R.ok() : R.fail();
@@ -68,6 +72,7 @@ public class SysRoleController {
      * @return R
      */
     @DeleteMapping("delete/{id}")
+    @PreAuthorize("hasAuthority('bnt.sysRole.remove1')")
     public R remove(@PathVariable Long id) {
         boolean b = roleService.removeById(id);
         return b ? R.ok() : R.fail();
@@ -80,6 +85,7 @@ public class SysRoleController {
      * @return R
      */
     @DeleteMapping("batchDelete")
+    @PreAuthorize("hasAuthority('bnt.sysRole.remove')")
     public R batchRemove(@RequestBody List<Long> ids) {
         boolean b = roleService.removeByIds(ids);
         return b ? R.ok() : R.fail();
@@ -92,6 +98,7 @@ public class SysRoleController {
      * @return R
      */
     @PutMapping("update")
+    @PreAuthorize("hasAuthority('bnt.sysRole.update')")
     public R update(@RequestBody SysRole sysRole) {
         sysRole.setUpdateTime(new Date());
         boolean b = roleService.updateById(sysRole);
@@ -107,6 +114,7 @@ public class SysRoleController {
      * @return 角色列表
      */
     @PostMapping("page/{pageNum}/{size}")
+    @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     public R<Page<SysRole>> selectPage(@PathVariable Integer pageNum, @PathVariable Integer size, @RequestBody SysRoleQueryVo sysRoleQueryVo) {
         Page<SysRole> page = new Page<>(pageNum, size);
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
@@ -121,12 +129,19 @@ public class SysRoleController {
      * @return 角色列表
      */
     @GetMapping("toAssign/{userId}")
+    @PreAuthorize("hasAuthority('bnt.sysRole.list')")
     public R toAssign(@PathVariable Long userId) {
         Map<String,Object> roleMap = roleService.getRolesByUserId(userId);
         return R.ok(roleMap);
     }
 
+    /**
+     * 分配权限
+     * @param assginRoleVo
+     * @return
+     */
     @PostMapping("/doAssign")
+    @PreAuthorize("hasAuthority('bnt.sysRole.update')")
     public R doAssign(@RequestBody AssignRoleVo assginRoleVo) {
         roleService.doAssign(assginRoleVo);
         return R.ok();

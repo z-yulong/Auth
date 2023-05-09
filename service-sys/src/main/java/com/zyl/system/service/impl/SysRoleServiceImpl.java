@@ -37,6 +37,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         return map;
     }
 
+    /**
+     * 分配權限
+     * @param assginRoleVo
+     */
     @Override
     public void doAssign(AssignRoleVo assginRoleVo) {
         //根据用户id删除原来分配的角色
