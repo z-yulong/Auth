@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #url: jdbc:mysql://39.106.67.146:3306/guigu-auth
-    url: jdbc:mysql://127.0.0.1:3306/guigu-auth
+    url: jdbc:mysql://39.106.67.146:3306/guigu-auth
+    #url: jdbc:mysql://127.0.0.1:3306/guigu-auth
     username: root
     password: root
   #对日期展示的格式化
