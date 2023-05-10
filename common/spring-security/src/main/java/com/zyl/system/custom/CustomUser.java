@@ -13,11 +13,10 @@ import java.util.Collection;
  */
 @Getter
 public class CustomUser extends User {
-    private SysUser sysUser;
+    private final SysUser sysUser;
 
     public CustomUser(SysUser sysUser, Collection<? extends GrantedAuthority> authorities) {
         super(sysUser.getUsername(), sysUser.getPassword(), authorities);
         this.sysUser = sysUser;
     }
-
 }
