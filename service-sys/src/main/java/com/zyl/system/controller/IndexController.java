@@ -31,10 +31,7 @@ public class IndexController {
 
     @GetMapping("/info")
     public R getInfo(@RequestHeader String token){
-        System.out.println("token = " + token);
-
         Object o = redisTemplate.boundValueOps(token).get();
-        System.out.println("o = " + o);
         SysUser sysUser = (SysUser)redisTemplate.boundValueOps(token).get();
         //调用SysUserService中根据用户id获取用户信息的方法
         Map<String,Object> map = userService.getUserInfoByUserId(sysUser.getId());
